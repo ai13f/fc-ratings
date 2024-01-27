@@ -9,8 +9,8 @@ import * as fs from "fs";
 const fontPath = join(process.cwd(), 'Roboto-Regular.ttf')
 let fontData = fs.readFileSync(fontPath)
 
-const emojiFontPath = join(process.cwd(), 'NotoColorEmoji-Regular.ttf');
-let emojiFontData = fs.readFileSync(emojiFontPath);
+const emojiPath = join(process.cwd(), 'NotoColorEmoji-Regular.ttf')
+let emojiData = fs.readFileSync(emojiPath)
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -33,8 +33,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         //     votedOption = await kv.hget(`poll:${pollId}:votes`, `${fid}`) as number
         // }
 
-        const pollOptions = [poll.rating]
-            .filter((option) => option !== 0);
+        const pollOptions = [poll.option1, poll.option2, poll.option3, poll.option4]
+            .filter((option) => option !== '');
         const totalVotes = pollOptions
             // @ts-ignore
             .map((option, index) => parseInt(poll[`votes${index+1}`]))
@@ -97,7 +97,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     weight: 400
                 },
                 {
-                    data: emojiFontData,
+                    data: emojiData,
                     name: 'Noto Color Emoji',
                     style: 'normal',
                     weight: 400
